@@ -36,6 +36,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'manager_dashboard',
+    'patient_details',
     'patient_login',
     'doctor_login',  
     'manager_login',

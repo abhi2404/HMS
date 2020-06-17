@@ -29,7 +29,7 @@ def pt_login(request):
 		data=json.loads(request.body)
 		username=data['email']
 		password=data['password']
-		bool_filter=patient_login.objects.filter(email=username,password=password).exists()  
+		bool_filter=patient_login.objects.filter(email__contains=username,password__contains=password).exists()  
 		print(bool_filter)
 		if (bool_filter):
 			message=list(patient_login.objects.filter(email=username).values())
