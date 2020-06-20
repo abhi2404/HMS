@@ -11,10 +11,10 @@ def index(request):
 		data=json.loads(request.body)
 		username=data['email']
 		password=data['password']
-		bool_filter=login.objects.filter(email__contains=username,password__contains=password).exists()
+		bool_filter=login.objects.filter(email=username,password=password).exists()
 		print(bool_filter)
 		if (bool_filter):
-			message=list(login.objects.filter(email__contains=username).values('email'))
+			message=list(login.objects.filter(email=username).values('email'))   
 		else:
 			message="invalid credentials"	
 	return JsonResponse(message,safe=False)

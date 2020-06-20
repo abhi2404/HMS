@@ -30,10 +30,10 @@ def dr_login(request):
 		data=json.loads(request.body)
 		username=data['email']
 		password=data['password']
-		bool_filter=doctor_login.objects.filter(email__contains=username,password__contains=password,status="confirmed").exists()  
+		bool_filter=doctor_login.objects.filter(email=username,password=password,status="confirmed").exists()  
 		print(bool_filter)
 		if (bool_filter):
-			message="ok"
+			message=list(doctor_login.objects.filter(email=username).values('name','email','doctor_degree','field','mobile_no','field'))
 		else:
 			message="invalid credentials"	
 	return JsonResponse(message,safe=False)
@@ -54,5 +54,5 @@ def field(request):
     		print(Id)
     		message=specialization.objects.filter(link_id=Id).values('field')
     		break
-    return JsonResponse(list(message),safe=False)
+    return JsonResponse(list(message),safe=False)    
 	

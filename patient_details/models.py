@@ -7,8 +7,8 @@ class patient_appointment(models.Model):
 	date_of_appointment=models.CharField(max_length=15)
 	time_of_appointment=models.CharField(max_length=15)
 	problem=models.CharField(max_length=200)
-	status=models.CharField(max_length=15,default="pending")
-	fees=models.CharField(max_length=5,null=True)
+	status=models.CharField(max_length=20,default="pending")
+	fees=models.CharField(max_length=10,null=True)
 	doctor_name=models.CharField(max_length=20,null=True)
 	field=models.CharField(max_length=50,null=True)
 	message=models.CharField(max_length=200,null=True)
@@ -22,3 +22,5 @@ class patient_history(models.Model):
 	height=models.CharField(max_length=10)
 	status=models.CharField(max_length=15,default="filled")
 	key=models.ForeignKey('patient_login.patient_login',models.DO_NOTHING) 
+
+

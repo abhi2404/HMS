@@ -3,6 +3,8 @@ import json
 from django.http import JsonResponse
 from .models import patient_appointment , patient_history
 from patient_login.models import patient_login
+from manager_dashboard.models import payment
+from doctor_dashboard.models import report_form
 
 # Create your views here.
 def apt(request):
@@ -50,4 +52,41 @@ def display_history(request):
 		data=request.GET.get('id')
 		print(data)
 		message=patient_history.objects.filter(status="filled",key_id=data).values('height','weight','blood_group','previous_problem')
-	return JsonResponse(list(message),safe=False)  
+	return JsonResponse(list(message),safe=False)
+
+
+def show_fees(request):
+    if request.method =="GET":
+        data=request.GET.get('key_id')
+        message=list(patient_appointment.objects.filter(key_id=data).values('fees','doctor_name','problem','date_of_appointment','time_of_appointment'))
+    return JsonResponse(message,safe=False)
+
+
+def test_cost(request):
+	if request.method == "GET":
+		data=request.GET.get('key_id')
+		try:
+			message=list(payment.objects.filter(link__key_id=data).values('doctor_name','payment_for','cost','link__date_of_appointment','link__time_of_appointment'))
+		except:
+			message="No Test yet"
+	return JsonResponse(message,safe=False)
+
+
+def prescription(request):
+	if request.method== "GET":
+		data=request.GET.get('key_id')
+		message=list(report_form.objects.filter(link__key_id=data,link__status="finished").values('link__date_of_appointment'))
+	return JsonResponse(message,safe=False)
+
+def detail_report(request):
+    if request.method =="POST":
+    	print(request.body)
+    	data=json.loads(request.body)
+    	date=data['selected_date']
+    	try:
+    		message=list(report_form.objects.filter(link__date_of_appointment=date).values('bp','SpO2','prescription','message'))
+    	except:
+    		message="NOT YET GENERATED"
+    return JsonResponse(message,safe=False)	
+
+ 
