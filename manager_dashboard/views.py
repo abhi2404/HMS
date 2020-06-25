@@ -3,7 +3,8 @@ import json
 from django.http import JsonResponse
 from patient_login.models import patient_login
 from patient_details.models import patient_appointment , patient_history  
-from doctor_login.models import doctor_login
+from doctor_login.models import doctor_login 
+from doctor_dashboard.models import report_form
 from .models import payment 
 # Create your views here.
 
@@ -101,3 +102,8 @@ def show_payment_fees(request):
     if request.method =="GET":
        message=list(patient_appointment.objects.values('id','fees','key__name','doctor_name','date_of_appointment','time_of_appointment'))
     return JsonResponse(message,safe=False)	
+
+def show_report(request):
+	if request.method =="GET":
+		message=list(report_form.objects.values('bp','SpO2','prescription','message','link__id','link__date_of_appointment','link__problem','link__doctor_name','link__key__name'))
+	return JsonResponse(message,safe=False)

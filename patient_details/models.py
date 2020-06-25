@@ -13,6 +13,7 @@ class patient_appointment(models.Model):
 	field=models.CharField(max_length=50,null=True)
 	message=models.CharField(max_length=200,null=True)
 	key=models.ForeignKey('patient_login.patient_login',models.DO_NOTHING) 
+	notification=models.CharField(max_length=15,default="show")
 
 class patient_history(models.Model):
 	height=models.CharField(max_length=10)

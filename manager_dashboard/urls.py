@@ -1,6 +1,6 @@
 from django.urls import path
 from manager_dashboard import views
-from .views import show_details , show_appointment , show_appointment_id,send_doctor_list, forward_appointment , reject_appointment,confirm_appointment,modify_confirm_appointment,bill_payment,show_payment_details,show_payment_fees
+from .views import show_details , show_appointment , show_appointment_id,send_doctor_list, forward_appointment , reject_appointment,confirm_appointment,modify_confirm_appointment,bill_payment,show_payment_details,show_payment_fees,show_report
 
 urlpatterns = [
     path('show_details/',views.show_details,name="patient_details"),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('payment/',views.bill_payment,name="payment"),
     path('payment_show/',views.show_payment_details,name="payment_show"),
     path('payment_fees/',views.show_payment_fees,name="payment_fees"),
+    path('report/',views.show_report,name="report")
 ]

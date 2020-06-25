@@ -105,13 +105,16 @@ def count(request):
 		doctor_name=data['doctor_name']
 		count=list(patient_appointment.objects.filter(status="finished",doctor_name=doctor_name).values('key_id').annotate(Count('id')))
 		print(count)
-		try:
-			key_id=count[0]['key_id']
+		length=len(count)
+		message=[]
+		for x in range(length):
+			print(x)
+			key_id=count[x]['key_id']
 			print(key_id)
-			message=list(patient_login.objects.filter(id=key_id).values())
-		except:
-			message="NONE"
-	return JsonResponse(message,safe=False)
+			patient_list=list(patient_history.objects.filter(key_id=key_id).values('height','weight','blood_group','previous_problem','key__id','key__name','key__email','key__mobile_no','key__age','key__gender'))
+			message.extend(patient_list)
+			print(message)
+		return JsonResponse(message,safe=False)  
 
 
 

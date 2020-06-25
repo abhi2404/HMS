@@ -16,8 +16,12 @@ def apt(request):
 		problem=data['problem']
 		fees=data['fees']
 		Id=data['id']
-		patient_appointment.objects.create(date_of_appointment=date_of_appointment,time_of_appointment=time_of_appointment,problem=problem,fees=fees,key=patient_login.objects.get(pk=Id))
-		message="status pending"
+		history=patient_history.objects.filter(status="filled",key_id=Id).exists()
+		if history:
+			patient_appointment.objects.create(date_of_appointment=date_of_appointment,time_of_appointment=time_of_appointment,problem=problem,fees=fees,key=patient_login.objects.get(pk=Id))
+			message="status pending"
+		else:
+			message="Fill medical history first"
 	return JsonResponse(message,safe=False)
 
 def display_apt(request):
@@ -90,3 +94,17 @@ def detail_report(request):
     return JsonResponse(message,safe=False)	
 
  
+def notification(request):
+	if request.method =="GET":
+		Id=request.GET.get('id')
+		message=list(patient_appointment.objects.filter(key_id=Id,notification="show").exclude(message=None).values('message','date_of_appointment','status'))
+		if message==[]:
+			return JsonResponse("NO",safe=False)
+		else: 
+			return JsonResponse(message,safe=False)
+
+def remove(request):
+	if request.method =="GET":
+		Id=request.GET.get('id')
+		patient_appointment.objects.filter(key_id=Id).exclude(status="pending").update(notification="dismiss")
+	return JsonResponse("NO",safe=False)
