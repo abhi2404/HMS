@@ -7,7 +7,6 @@ from doctor_login.models import doctor_login
 # Create your views here.
 def index(request):
 	if request.method == "POST":
-		print(request.body)
 		data=json.loads(request.body)
 		username=data['email']
 		password=data['password']
@@ -27,7 +26,6 @@ def dr_registration(request):
 
 def registration_accept(request):
 	if request.method == "POST":
-	    print(request.body)
 	    data=json.loads(request.body)
 	    Id=data['id']
 	    doctor_login.objects.filter(id=Id).update(status="confirmed")
@@ -37,7 +35,6 @@ def registration_accept(request):
 
 def registration_reject(request):
 	if request.method == "POST":
-	    print(request.body)
 	    data=json.loads(request.body)
 	    Id=data['id']
 	    doctor_login.objects.filter(id=Id).update(status="rejected")
